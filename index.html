@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICCT Colleges</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; background: #f4f4f4; }
+        .header { background: #2c3e50; color: white; padding: 1rem; }
+        .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 1rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .hero { text-align: center; padding: 4rem 0; background: white; margin: 2rem auto; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; padding: 0.5rem 1rem; background: #3498db; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; }
+        .form-container { max-width: 400px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+        button { width: 100%; padding: 0.75rem; background: #3498db; color: white; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        .message { padding: 1rem; margin: 1rem 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .page { display: none; }
+        .password-requirements { background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; font-size: 0.9rem; }
+        .requirement { margin-bottom: 0.25rem; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <h1>ICCT Colleges</h1>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('login')">Login</a>
+                <a href="#" onclick="showPage('register')">Register</a>
+                <a href="#" onclick="showPage('about')">About</a>
+                <a href="#" id="logoutBtn" style="display:none;" onclick="logout()">Logout</a>
+                <span id="welcomeUser" style="display:none;"></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page">
+        <div class="hero">
+            <div class="container">
+                <h1>Welcome to ICCT Colleges</h1>
+                <p>Quality Education for a Better Future</p>
+                <button class="btn" onclick="showPage('register')">Get Started</button>
+            </div>
+        </div>
+        <div class="container">
+            <h2>About Our Institution</h2>
+            <p>ICCT Colleges is committed to providing quality education and developing competent professionals.</p>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="page">
+        <div class="form-container">
+            <h2>Register</h2>
+            <div id="registerMessage"></div>
+            
+            <div class="password-requirements">
+                <strong>Password Requirements:</strong>
+                <div class="requirement">✓ At least 8 characters long</div>
+                <div class="requirement">✓ One uppercase letter (A-Z)</div>
+                <div class="requirement">✓ One lowercase letter (a-z)</div>
+                <div class="requirement">✓ One number (0-9)</div>
+                <div class="requirement">✓ One special character (!@#$%^&*()-_=+{};:,<.>)</div>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password:</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">Already have an account? <a href="#" onclick="showPage('login')">Login here</a></p>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+        <div class="form-container">
+            <h2>Login</h2>
+            <div id="loginMessage"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">Don't have an account? <a href="#" onclick="showPage('register')">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="aboutPage" class="page">
+        <div class="container">
+            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h2>About ICCT Colleges</h2>
+                <p>ICCT Colleges is a premier educational institution committed to providing quality education and developing competent professionals.</p>
+                
+                <h3>Our Mission</h3>
+                <p>To provide accessible, quality education that transforms students into competent professionals and responsible citizens.</p>
+                
+                <h3>Our Vision</h3>
+                <p>To be a leading educational institution recognized for excellence in instruction, research, and community service.</p>
+                
+                <h3>Programs Offered</h3>
+                <ul>
+                    <li>Computer Science</li>
+                    <li>Information Technology</li>
+                    <li>Business Administration</li>
+                    <li>Education</li>
+                    <li>Engineering</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ REPLACE THIS WITH YOUR ACTUAL NGROK URL ⚠️
+        const API_URL = 'https://3cb218c475e2.ngrok-free.app/icct-website/api.php';
+        
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            document.getElementById(pageName + 'Page').style.display = 'block';
+            
+            // Update navigation
+            const username = localStorage.getItem('username');
+            if(username) {
+                document.getElementById('logoutBtn').style.display = 'inline';
+                document.getElementById('welcomeUser').style.display = 'inline';
+                document.getElementById('welcomeUser').textContent = `Welcome, ${username}!`;
+            } else {
+                document.getElementById('logoutBtn').style.display = 'none';
+                document.getElementById('welcomeUser').style.display = 'none';
+            }
+        }
+        
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            const registerBtn = this.querySelector('button');
+            registerBtn.disabled = true;
+            registerBtn.textContent = 'Registering...';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'register',
+                        username: formData.get('username'),
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                        confirm_password: formData.get('confirm_password')
+                    })
+                });
+                
+                const result = await response.json();
+                const messageDiv = document.getElementById('registerMessage');
+                messageDiv.className = result.success ? 'message success' : 'message error';
+                messageDiv.innerHTML = result.message;
+                
+                if(result.success) {
+                    this.reset();
+                    setTimeout(() => showPage('login'), 2000);
+                }
+            } catch (error) {
+                const messageDiv = document.getElementById('registerMessage');
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Network error. Please check if ngrok is running.';
+            } finally {
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Register';
+            }
+        });
+        
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            const loginBtn = this.querySelector('button');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'login',
+                        username: formData.get('username'),
+                        password: formData.get('password')
+                    })
+                });
+                
+                const result = await response.json();
+                const messageDiv = document.getElementById('loginMessage');
+                messageDiv.className = result.success ? 'message success' : 'message error';
+                messageDiv.textContent = result.message;
+                
+                if(result.success) {
+                    localStorage.setItem('username', result.username);
+                    setTimeout(() => showPage('home'), 1000);
+                }
+            } catch (error) {
+                const messageDiv = document.getElementById('loginMessage');
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Network error. Please check if ngrok is running.';
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        });
+        
+        function logout() {
+            localStorage.removeItem('username');
+            showPage('home');
+        }
+        
+        // Show home page by default
+        showPage('home');
+    </script>
+</body>
+</html>
