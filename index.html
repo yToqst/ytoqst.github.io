@@ -1,20 +1,609 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Embedded Site</title>
-    <style>
-        iframe {
-            width: 100%;
-            height: 100vh;
-            border: none;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dave Marcos | Portfolio</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Minecraft Font -->
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Minecraft', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    /* Header */
+    .header {
+      background-color: #222;
+      color: white;
+      padding: 20px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transform: translateY(0);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .header.hidden {
+      transform: translateY(-100%);
+    }
+
+    .header.scrolled {
+      background-color: rgba(34, 34, 34, 0.95);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      color: #fff;
+      text-shadow: 3px 3px 0 #000;
+      letter-spacing: 1px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 1rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+
+    .nav a:hover {
+      color: #ddd;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      color: white;
+      text-align: center;
+      padding: 150px 20px 100px;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png');
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px) brightness(0.6);
+      z-index: -1;
+      transform: scale(1.1);
+      animation: backgroundZoom 20s infinite alternate;
+    }
+
+    @keyframes backgroundZoom {
+      0% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1.15);
+      }
+    }
+
+    .hero-content {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.5s;
+    }
+
+    .hero h2 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      text-shadow: 3px 3px 0 #000;
+    }
+
+    .hero span {
+      color: #fff;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 20px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      40% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+      60% {
+        transform: translateY(-5px) translateX(-50%);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* About */
+    .about {
+      padding: 100px 0;
+      background-color: white;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .about.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .about h2::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      background-color: #222;
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .about.visible h2::after {
+      transform: scaleX(1);
+    }
+
+    .about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    /* Projects */
+    .projects {
+      padding: 100px 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .projects.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .projects h2 {
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .projects h2::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      background-color: #222;
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .projects.visible h2::after {
+      transform: scaleX(1);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background-color: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .project-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .project-card h3 {
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .project-card a {
+      color: #222;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      display: inline-block;
+      transition: color 0.3s ease;
+    }
+
+    .project-card a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #222;
+      transition: width 0.3s ease;
+    }
+
+    .project-card a:hover {
+      color: #555;
+    }
+
+    .project-card a:hover::after {
+      width: 100%;
+    }
+
+    /* Contact */
+    .contact {
+      padding: 100px 0;
+      background-color: #f0f0f0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .contact.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .contact h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .contact h2::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      background-color: #222;
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .contact.visible h2::after {
+      transform: scaleX(1);
+    }
+
+    .contact p {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .contact.visible p {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .contact i {
+      color: #222;
+      font-size: 1.2rem;
+      width: 25px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .contact a {
+      color: #222;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact a:hover {
+      color: #555;
+    }
+
+    .contact p:hover i {
+      transform: scale(1.2);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      background-color: #222;
+      color: white;
+      font-size: 1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header .container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .nav a {
+        margin: 0 10px;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <iframe src="https://while-suppliers-york-designing.trycloudflare.com"></iframe>
+
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">yToqst</h1>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h2>Hello, I'm <span>Dave Marcos</span></h2>
+        
+        <p>Aspiring Cybersecurity Professional</p>
+        <p>I dont know what to put here lol.</p>
+      </div>
+      <div class="scroll-indicator" onclick="scrollToAbout()">
+        <i class="fas fa-chevron-down fa-2x"></i>
+      </div>
+      
+  </section>
+
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <!-- Add the GIF here -->
+    <div class="hero-gif">
+      <img src="https://media.discordapp.net/attachments/1203947763738480680/1430082247318437930/ezgif-2f537e6434b4db.gif?ex=68f87b61&is=68f729e1&hm=e4fb53c02347844865ad41bc2482da540b4207438c817dddcb48e53a8c5ba8e9&=" alt="Stickman Animation">
+    </div>
+      <p>
+        Hello! I'm Dave Marcos, known online as <strong>Toqst</strong>.  
+        I started learning HTML when I was 11 years old on my dad's old computer. At first, I wasn't really into HTML but PHP, because I wanted to develop Minecraft plugins at PocketMine.<br><br>
+        After a year of being a total "copy coder" at PocketMine, I learned PHP properly and eventually started creating plugins on my own without copying code. <br><br>
+        I've now been programming for around 5–6 years and know PHP, Java, Python, and a bit of C. I'm currently learning Luau because I want to become a Roblox game developer — or perhaps something even bigger in the future.  <br><br>
+        Below are some of the projects I've worked on.
+      </p>
+  </section>
+
+  <section id="projects" class="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>udp-toqster</h3>
+          <p>A potent UDP flooding tool designed for stress testing network resilience and evaluating security measures.<br><a href="https://github.com/IamToqst/udp-toqster." target="_blank">Check it out here</a></p>
+        </div>
+        <div class="project-card">
+          <h3>tcp-toqster</h3>
+          <p>A TCP flooding utility for robust network stress testing, simulating high traffic scenarios to fortify your system's defenses.<br><a href="https://github.com/IamToqst/tcp-toqster" target="_blank">Check it out here</a></p>
+        </div>
+        <div class="project-card">
+          <h3>Student management system</h3>
+          <p>A simple student management system, made for really for our school project.<br><a href="https://github.com/IamToqst" target="_blank">Check it out here</a></p>
+        </div>
+        <div class="project-card">
+          <h3>Something is missing here</h3>
+          <p>This project is still undeveloped/<br><a>Under development.</a></p>
+          <div class="hero-gif">
+            <img src="https://media.discordapp.net/attachments/1203947763738480680/1430079533129662537/ezgif-72f044f2ec84e4.gif?ex=68f878da&is=68f7275a&hm=a95c6345068a0fa195bf6acd73a1dec7d588e11351670ff8e4c190f2c1e102f2&=" alt="Stickman Animation" style="width: 80px; height: auto; border-radius: 8px; border: 2px solid white; box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Contact Me</h2>
+      <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:iamtoqst@gmail.com">iamtoqst@gmail.com</a></p>
+      <p><i class="fa-brands fa-discord"></i> Discord: obscurelytoqst</p>
+      <p><i class="fa-brands fa-instagram"></i> Instagram: <a href="https://instagram.com/ytoqst" target="_blank">ytoqst</a></p>
+      <p><i class="fa-brands fa-youtube"></i> YouTube: <a href="https://youtube.com/@yToqst" target="_blank">youtube.com/@yToqst</a></p>
+      <p><i class="fa-brands fa-github"></i> GitHub: <a href="https://github.com/IamToqst" target="_blank">github.com/IamToqst</a></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 yToqst. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Header scroll effect
+      const header = document.querySelector('.header');
+      let lastScrollTop = 0;
+      
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        if (scrollTop > lastScrollTop && scrollTop > 200) {
+          header.classList.add('hidden');
+        } else {
+          header.classList.remove('hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+      });
+      
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            
+            // If it's the project grid, animate each card with a delay
+            if (entry.target.classList.contains('project-grid')) {
+              const cards = entry.target.querySelectorAll('.project-card');
+              cards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('visible');
+                }, index * 200);
+              });
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Observe elements
+      const elementsToAnimate = document.querySelectorAll('.about, .projects, .contact, .project-card');
+      elementsToAnimate.forEach(el => observer.observe(el)); 
+      
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+    function scrollToAbout() {
+      const aboutSection = document.getElementById('about');
+      if (aboutSection) {
+        window.scrollTo({
+          top: aboutSection.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }
+  </script>
 </body>
 </html>
