@@ -6,7 +6,7 @@
   <title>yToqst</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="https://github.com/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png">
   
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -39,7 +39,7 @@
     .header {
       background-color: #222;
       color: white;
-      padding: 20px 0;
+      padding: 15px 0;
       position: fixed;
       width: 100%;
       top: 0;
@@ -61,46 +61,85 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 0 20px;
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: #fff;
       text-shadow: 3px 3px 0 #000;
       letter-spacing: 1px;
       transition: transform 0.3s ease;
+      z-index: 1001;
     }
 
     .logo:hover {
       transform: scale(1.05);
     }
 
-    .nav a {
-      color: white;
+    .nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
       margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
       text-decoration: none;
       font-size: 1rem;
       position: relative;
       transition: color 0.3s ease;
+      padding: 5px 0;
     }
 
-    .nav a::after {
+    .nav-links a::after {
       content: '';
       position: absolute;
       width: 0;
       height: 2px;
-      bottom: -5px;
+      bottom: 0;
       left: 0;
       background-color: white;
       transition: width 0.3s ease;
     }
 
-    .nav a:hover {
+    .nav-links a:hover {
       color: #ddd;
     }
 
-    .nav a:hover::after {
+    .nav-links a:hover::after {
       width: 100%;
+    }
+
+    /* Mobile Menu Button */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s ease;
     }
 
     /* Hero */
@@ -114,6 +153,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 0;
     }
 
     .hero::before {
@@ -163,8 +203,6 @@
       text-shadow: 2px 2px 0 #000;
       margin-bottom: 20px;
     }
-
-    /* Removed scroll-indicator styles */
 
     @keyframes fadeInUp {
       from {
@@ -404,12 +442,47 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       .header .container {
-        flex-direction: column;
-        gap: 10px;
+        padding: 0 15px;
       }
       
-      .nav a {
-        margin: 0 10px;
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #222;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .nav-links.active {
+        right: 0;
+      }
+      
+      .nav-links li {
+        margin: 15px 0;
+      }
+      
+      .nav-links a {
+        font-size: 1.2rem;
+        padding: 10px 0;
+      }
+      
+      .hero {
+        padding: 120px 20px 80px;
       }
       
       .hero h2 {
@@ -418,6 +491,33 @@
       
       .project-grid {
         grid-template-columns: 1fr;
+      }
+      
+      /* Mobile menu animation */
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+      
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1.3rem;
+      }
+      
+      .hero h2 {
+        font-size: 1.7rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
       }
     }
   </style>
@@ -428,9 +528,16 @@
     <div class="container">
       <h1 class="logo">yToqst</h1>
       <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -443,13 +550,13 @@
         <p>Aspiring Cybersecurity Professional</p>
         <p>I dont know what to put here lol.</p>
       </div>
-      <!-- Removed scroll indicator arrow -->
     </div>
   </section>
 
   <section id="about" class="about">
     <div class="container">
       <h2>About Me</h2>
+      
       <p>
         Hello! I'm Dave Marcos, known online as <strong>Toqst</strong>.  
         I started learning HTML when I was 11 years old on my dad's old computer. At first, I wasn't really into HTML but PHP, because I wanted to develop Minecraft plugins at PocketMine.<br><br>
@@ -501,6 +608,23 @@
   </footer>
 
   <script>
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+      });
+    });
+
     // Scroll animations
     document.addEventListener('DOMContentLoaded', function() {
       // Header scroll effect
