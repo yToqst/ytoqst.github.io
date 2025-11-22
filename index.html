@@ -35,11 +35,11 @@
       padding: 20px 0;
     }
 
-    /* Header */
+    /* Header - Increased Height */
     .header {
       background-color: #222;
       color: white;
-      padding: 16px 0;
+      padding: 25px 0;
       position: fixed;
       width: 100%;
       top: 0;
@@ -65,7 +65,7 @@
     }
 
     .logo {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       color: #fff;
       text-shadow: 2px 2px 0 #000;
       letter-spacing: 1px;
@@ -82,19 +82,19 @@
 
     .nav a {
       color: white;
-      margin-left: 20px;
+      margin-left: 25px;
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       position: relative;
       transition: color 0.3s ease;
-      padding: 5px 0;
+      padding: 8px 0;
     }
 
     .nav a::after {
       content: '';
       position: absolute;
       width: 0;
-      height: 2px;
+      height: 3px;
       bottom: 0;
       left: 0;
       background-color: white;
@@ -109,12 +109,12 @@
       width: 100%;
     }
 
-    /* Hero */
+    /* Hero - Adjusted for larger header */
     .hero {
       position: relative;
       color: white;
       text-align: center;
-      padding: 140px 20px 80px;
+      padding: 160px 20px 80px;
       overflow: hidden;
       min-height: 90vh;
       display: flex;
@@ -409,7 +409,7 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       .header {
-        padding: 14px 0;
+        padding: 20px 0;
       }
       
       .header .container {
@@ -417,16 +417,16 @@
       }
       
       .logo {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
       }
       
       .nav a {
-        margin-left: 15px;
-        font-size: 1rem;
+        margin-left: 18px;
+        font-size: 1.1rem;
       }
       
       .hero {
-        padding: 120px 15px 70px;
+        padding: 140px 15px 70px;
         min-height: 85vh;
       }
       
@@ -445,20 +445,20 @@
 
     @media (max-width: 480px) {
       .header {
-        padding: 12px 0;
+        padding: 18px 0;
       }
       
       .logo {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
       }
       
       .nav a {
-        margin-left: 12px;
-        font-size: 0.95rem;
+        margin-left: 15px;
+        font-size: 1rem;
       }
       
       .hero {
-        padding: 110px 10px 60px;
+        padding: 130px 10px 60px;
         min-height: 80vh;
       }
       
@@ -620,7 +620,7 @@
           const targetElement = document.querySelector(targetId);
           if (targetElement) {
             window.scrollTo({
-              top: targetElement.offsetTop - 80,
+              top: targetElement.offsetTop - 100, // Increased offset for larger header
               behavior: 'smooth'
             });
           }
