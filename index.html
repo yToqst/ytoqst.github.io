@@ -4,13 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>yToqst</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png">
-  
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Minecraft Font -->
   <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 
   <style>
@@ -34,8 +29,6 @@
       margin: 0 auto;
       padding: 20px 0;
     }
-
-    /* Header - Increased Height */
     .header {
       background-color: #222;
       color: white;
@@ -109,7 +102,6 @@
       width: 100%;
     }
 
-    /* Hero - Adjusted for larger header */
     .hero {
       position: relative;
       color: white;
@@ -182,7 +174,6 @@
       }
     }
 
-    /* About */
     .about {
       padding: 90px 0;
       background-color: white;
@@ -224,8 +215,6 @@
       font-size: 1.1rem;
       line-height: 1.8;
     }
-
-    /* Projects */
     .projects {
       padding: 90px 0;
       opacity: 0;
@@ -406,7 +395,6 @@
       font-size: 1rem;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .header {
         padding: 20px 0;
@@ -550,9 +538,7 @@
   </footer>
 
   <script>
-    // Scroll animations
     document.addEventListener('DOMContentLoaded', function() {
-      // Header scroll effect
       const header = document.querySelector('.header');
       let lastScrollTop = 0;
       
@@ -574,7 +560,6 @@
         lastScrollTop = scrollTop;
       });
       
-      // Intersection Observer for scroll animations
       const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -598,11 +583,9 @@
         });
       }, observerOptions);
       
-      // Observe elements
       const elementsToAnimate = document.querySelectorAll('.about, .projects, .contact, .project-card');
       elementsToAnimate.forEach(el => observer.observe(el)); 
       
-      // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           e.preventDefault();
@@ -613,7 +596,7 @@
           const targetElement = document.querySelector(targetId);
           if (targetElement) {
             window.scrollTo({
-              top: targetElement.offsetTop - 100, // Increased offset for larger header
+              top: targetElement.offsetTop - 100, 
               behavior: 'smooth'
             });
           }
