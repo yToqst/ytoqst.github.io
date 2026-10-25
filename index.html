@@ -31,8 +31,6 @@
     :focus-visible{outline:2px solid var(--t);outline-offset:3px}
 
     .container{width:90%;max-width:980px;margin:0 auto;padding:20px 0}
-
-    /* ---------- header / nav ---------- */
     .header{
       background:rgba(10,10,10,.82);
       backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
@@ -63,7 +61,6 @@
 
     .menu-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;border:1px solid var(--b);background:transparent;color:var(--t);border-radius:8px;cursor:pointer;font-size:14px}
 
-    /* ---------- hero ---------- */
     .hero{
       position:relative;color:var(--t);text-align:left;
       padding:54px 0 28px;overflow:hidden;min-height:auto;
@@ -78,8 +75,6 @@
     .hero p{font-size:clamp(1rem,2.2vw,1.23rem);line-height:1.75;color:var(--m);text-shadow:none;margin-bottom:0;max-width:790px;text-transform:none}
     .hero p+p{margin-top:8px}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-    /* ---------- sections ---------- */
     .about,.projects,.contact{
       padding:0;margin:0 0 50px;opacity:0;transform:translateY(20px);
       transition:opacity .7s ease,transform .7s ease;
@@ -149,7 +144,6 @@
     }
     .footer .container{padding:0;width:100%}
 
-    /* ---------- responsive ---------- */
     @media (max-width:760px){
       .header{width:calc(100% - 20px);margin:10px 10px 0;top:8px}
       .header.scrolled{max-width:calc(100% - 20px)}
@@ -244,7 +238,7 @@
           <div class="chips">
             <span class="chip">Android app development</span>
             <span class="chip">Minecraft proxy server hosting</span>
-            <span class="chip">Minecraft proxy server hosting</span>
+            <span class="chip">Web application and games development</span>
           </div>
         </div>
       </div>
@@ -255,8 +249,8 @@
     <div class="container">
       <h2>Tech Stack</h2>
       <div class="stack-list">
-        <div class="stack-group"><h3 class="stack-title">Languages</h3><div class="stack-items"><span class="stack-item">PHP</span><span class="stack-item">Java</span><span class="stack-item">Python</span><span class="stack-item">C</span><span class="stack-item">Luau</span></div></div>
-        <div class="stack-group"><h3 class="stack-title">Game Dev</h3><div class="stack-items"><span class="stack-item">PocketMine-MP</span><span class="stack-item">Minecraft Plugins</span><span class="stack-item">Roblox</span></div></div>
+        <div class="stack-group"><h3 class="stack-title">Languages</h3><div class="stack-items"><span class="stack-item">PHP</span><span class="stack-item">Java</span><span class="stack-item">Rust</span><span class="stack-item">C</span><span class="stack-item">C++ & C</span></div></div>
+        <div class="stack-group"><h3 class="stack-title">Game Dev</h3><div class="stack-items"><span class="stack-item">PocketMine-MP</span><span class="stack-item">Minecraft Plugins</span><span class="stack-item">Sofwares</span></div></div>
         <div class="stack-group"><h3 class="stack-title">Tools</h3><div class="stack-items"><span class="stack-item">Git</span><span class="stack-item">GitHub</span><span class="stack-item">VS Code</span></div></div>
       </div>
     </div>
@@ -311,7 +305,6 @@
         setMenu(!nav.classList.contains('open'));
       });
 
-      // reset the menu if the window grows back to desktop width
       window.addEventListener('resize', function() {
         if (window.innerWidth > 760) setMenu(false);
       });
@@ -324,8 +317,7 @@
         } else {
           header.classList.remove('scrolled');
         }
-        
-        // never hide the header while the mobile menu is open
+      
         if (scrollTop > lastScrollTop && scrollTop > 200 && !nav.classList.contains('open')) {
           header.classList.add('hidden');
         } else {
