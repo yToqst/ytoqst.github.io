@@ -5,458 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>yToqst</title>
   <link rel="icon" type="image/x-icon" href="https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+  <meta name="theme-color" content="#0a0a0a">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    :root{--bg:#0a0a0a;--b:rgba(255,255,255,.11);--bs:rgba(255,255,255,.20);--t:#f4f4f4;--m:rgba(255,255,255,.64);--sub:rgba(255,255,255,.38);--hov:rgba(255,255,255,.035);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+    *{margin:0;padding:0;box-sizing:border-box}
 
-    body {
-      font-family: 'Minecraft', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-      overflow-x: hidden;
+    body{
+      font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+      background-color:var(--bg);
+      color:var(--t);
+      line-height:1.7;
+      overflow-x:hidden;
+      font-size:13px;
     }
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(circle at 12% 8%,rgba(127,127,127,.10),transparent 28rem),radial-gradient(circle at 88% 72%,rgba(127,127,127,.07),transparent 32rem)}
+    ::selection{background:var(--t);color:var(--bg)}
+    a{cursor:pointer}
 
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px 0;
-    }
-    .header {
-      background-color: #222;
-      color: white;
-      padding: 25px 0;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      transform: translateY(0);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
+    .container{width:90%;max-width:980px;margin:0 auto;padding:20px 0}
 
-    .header.hidden {
-      transform: translateY(-100%);
+    .header{
+      background:rgba(10,10,10,.82);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      color:var(--t);
+      padding:0;
+      position:sticky;
+      top:14px;
+      z-index:1000;
+      max-width:980px;
+      width:calc(100% - 28px);
+      margin:14px auto 0;
+      border:1px solid var(--b);
+      border-radius:12px;
+      transform:translateY(0);
+      transition:transform .3s ease, background-color .3s ease, max-width .3s ease, padding .3s ease;
     }
+    .header.hidden{transform:translateY(-120%)}
+    .header.scrolled{max-width:760px;background:rgba(10,10,10,.92)}
+    .header .container{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;width:100%;max-width:980px}
 
-    .header.scrolled {
-      background-color: rgba(34, 34, 34, 0.95);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
+    .logo{font-size:13px;font-weight:800;text-transform:lowercase;letter-spacing:-.04em;color:var(--t);text-shadow:none;transition:opacity .2s;padding:8px}
+    .logo:hover{opacity:.8;transform:none}
 
-    .header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-    }
+    .nav{display:flex;align-items:center;gap:2px}
+    .nav a{color:var(--m);margin-left:0;text-decoration:none;font-size:11px;text-transform:lowercase;position:relative;transition:color .2s,background .2s;padding:9px 10px;border-radius:7px}
+    .nav a::after{display:none}
+    .nav a:hover{color:var(--t);background:var(--hov)}
 
-    .logo {
-      font-size: 2.2rem;
-      color: #fff;
-      text-shadow: 2px 2px 0 #000;
-      letter-spacing: 1px;
-      transition: transform 0.3s ease;
+    .hero{
+      position:relative;color:var(--t);text-align:left;
+      padding:54px 20px 28px;overflow:hidden;min-height:auto;
+      display:block;margin-top:0;
     }
+    .hero::before{content:none}
+    .hero-content{opacity:0;transform:translateY(20px);animation:fadeInUp .8s ease forwards .2s;max-width:980px;width:90%;margin:0 auto}
+    .hero h2{font:800 clamp(2.2rem,7vw,5.15rem)/.98 "JetBrains Mono",monospace;letter-spacing:-.08em;text-transform:lowercase;margin-bottom:24px;text-shadow:none;max-width:880px}
+    .hero span{color:var(--t);text-shadow:none}
+    .hero p{font-size:clamp(1rem,2.2vw,1.23rem);line-height:1.75;color:var(--m);text-shadow:none;margin-bottom:0;max-width:790px;text-transform:none}
+    .hero p+p{margin-top:8px}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-    .logo:hover {
-      transform: scale(1.05);
+    .about,.projects,.contact{
+      padding:0;margin:0 0 50px;opacity:0;transform:translateY(20px);
+      transition:opacity .7s ease,transform .7s ease;
     }
+    .about .container,.projects .container,.contact .container{padding:0;max-width:980px}
+    .about::before,.projects::before,.contact::before{content:"";display:block;height:1px;background:var(--b);margin:0 0 38px}
+    .about.visible,.projects.visible,.contact.visible{opacity:1;transform:translateY(0)}
+    .about{background-color:var(--bg)}
+    .contact{background-color:var(--bg)}
 
-    .nav {
-      display: flex;
+    .about h2,.projects h2,.contact h2{
+      margin-bottom:18px;font-size:11px;font-weight:500;letter-spacing:.1em;
+      text-transform:lowercase;color:var(--sub);position:relative;display:inline-block;
     }
+    .about h2::after,.projects h2::after,.contact h2::after{content:none}
 
-    .nav a {
-      color: white;
-      margin-left: 25px;
-      text-decoration: none;
-      font-size: 1.3rem;
-      position: relative;
-      transition: color 0.3s ease;
-      padding: 8px 0;
-    }
+    .about p{font-size:12px;line-height:1.9;color:var(--m);max-width:760px}
+    .about p strong{color:var(--t)}
 
-    .nav a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 3px;
-      bottom: 0;
-      left: 0;
-      background-color: white;
-      transition: width 0.3s ease;
-    }
+    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
 
-    .nav a:hover {
-      color: #ddd;
+    .project-card{
+      background-color:transparent;padding:18px;border:1px solid var(--b);border-radius:10px;
+      transition:border-color .25s,background .25s,transform .25s;
+      opacity:0;transform:translateY(16px);
     }
+    .project-card.visible{opacity:1;transform:translateY(0)}
+    .project-card:hover{transform:translateY(-3px);box-shadow:none;border-color:var(--bs);background:var(--hov)}
+    .project-card h3{margin-bottom:8px;color:var(--t);font-size:13px;font-weight:800;text-transform:lowercase;letter-spacing:-.01em}
+    .project-card p{color:var(--m);font-size:11px;line-height:1.8}
+    .project-card a{color:var(--t);text-decoration:underline;text-underline-offset:3px;font-weight:700;position:relative;display:inline-block;transition:color .2s;font-size:11px;text-transform:lowercase}
+    .project-card a::after{content:none}
+    .project-card a:hover{color:var(--m)}
 
-    .nav a:hover::after {
-      width: 100%;
-    }
+    .stack-list{border-top:1px solid var(--b)}
+    .stack-group{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--b)}
+    .stack-title{margin:0;color:var(--sub);font-size:10px;letter-spacing:.10em;text-transform:lowercase;font-weight:500}
+    .stack-items{display:flex;flex-wrap:wrap;gap:0}
+    .stack-item{color:var(--m);font-size:11px;text-transform:lowercase}
+    .stack-item:not(:last-child)::after{content:' / ';color:var(--sub)}
+    @media (max-width:760px){.stack-group{grid-template-columns:1fr;gap:8px}}
 
-    .hero {
-      position: relative;
-      color: white;
-      text-align: center;
-      padding: 160px 20px 80px;
-      overflow: hidden;
-      min-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 0;
-    }
+    .entry{border-top:1px solid var(--b);padding:20px 0;transition:background .22s ease}
+    .entry:hover{background:linear-gradient(90deg,transparent,var(--hov),transparent)}
+    .entry-title{margin:0 0 5px;font-size:14px;font-weight:800;text-transform:lowercase;color:var(--t)}
+    .entry-role{margin:0;color:var(--m);font-size:11px;line-height:1.55;text-transform:lowercase}
+    .entry-desc{margin:12px 0 0;color:var(--m);font-size:11px;line-height:1.76;max-width:720px}
+    .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+    .chip{display:inline-block;border:1px solid var(--b);color:var(--m);padding:6px 8px;border-radius:7px;font-size:10px;transition:.2s ease;text-transform:lowercase}
+    .chip:hover{color:var(--t);border-color:var(--bs);transform:translateY(-1px)}
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png');
-      background-size: cover;
-      background-position: center;
-      filter: blur(8px) brightness(0.6);
-      z-index: -1;
-      transform: scale(1.1);
-      animation: backgroundZoom 20s infinite alternate;
+    .contact p{
+      margin:9px 0;display:flex;align-items:center;gap:10px;font-size:12px;
+      opacity:0;transform:translateX(-14px);transition:opacity .5s ease,transform .5s ease;color:var(--m);
     }
+    .contact.visible p{opacity:1;transform:translateX(0)}
+    .contact i{color:var(--t);font-size:1rem;width:20px;text-align:center;transition:transform .3s}
+    .contact a{color:var(--t);text-decoration:none;transition:color .2s}
+    .contact a:hover{color:var(--m)}
+    .contact p:hover i{transform:scale(1.15)}
 
-    @keyframes backgroundZoom {
-      0% {
-        transform: scale(1.1);
-      }
-      100% {
-        transform: scale(1.15);
-      }
+    .footer{
+      margin-top:4px;padding:20px 0 50px;max-width:980px;width:90%;margin-left:auto;margin-right:auto;
+      border-top:1px solid var(--b);color:var(--sub);font-size:10px;text-transform:lowercase;
+      display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;text-align:left;
     }
+    .footer .container{padding:0;width:100%}
 
-    .hero-content {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards 0.5s;
+    @media (max-width:760px){
+      .header{width:calc(100% - 20px);margin:10px 10px 0;top:8px}
+      .header.scrolled{max-width:calc(100% - 20px)}
+      .header .container{padding:8px 9px}
+      .logo{font-size:.95rem}
+      .nav a{font-size:10.5px;padding:8px 9px}
+      .hero{padding-top:34px}
+      .project-grid{grid-template-columns:1fr}
     }
-
-    .hero h2 {
-      font-size: 2.4rem;
-      margin-bottom: 15px;
-      text-shadow: 3px 3px 0 #000;
-    }
-
-    .hero span {
-      color: #fff;
-      text-shadow: 2px 2px 0 #000;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      text-shadow: 2px 2px 0 #000;
-      margin-bottom: 20px;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .about {
-      padding: 90px 0;
-      background-color: white;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .about.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .about h2 {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    .about h2::after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 3px;
-      background-color: #222;
-      bottom: -5px;
-      left: 0;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
-    }
-
-    .about.visible h2::after {
-      transform: scaleX(1);
-    }
-
-    .about p {
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    .projects {
-      padding: 90px 0;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .projects.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .projects h2 {
-      margin-bottom: 30px;
-      font-size: 1.8rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    .projects h2::after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 3px;
-      background-color: #222;
-      bottom: -5px;
-      left: 0;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
-    }
-
-    .projects.visible h2::after {
-      transform: scaleX(1);
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .project-card {
-      background-color: white;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .project-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .project-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .project-card h3 {
-      margin-bottom: 10px;
-      color: #222;
-    }
-
-    .project-card a {
-      color: #222;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      display: inline-block;
-      transition: color 0.3s ease;
-    }
-
-    .project-card a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: #222;
-      transition: width 0.3s ease;
-    }
-
-    .project-card a:hover {
-      color: #555;
-    }
-
-    .project-card a:hover::after {
-      width: 100%;
-    }
-
-    /* Contact */
-    .contact {
-      padding: 90px 0;
-      background-color: #f0f0f0;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .contact.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .contact h2 {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    .contact h2::after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 3px;
-      background-color: #222;
-      bottom: -5px;
-      left: 0;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
-    }
-
-    .contact.visible h2::after {
-      transform: scaleX(1);
-    }
-
-    .contact p {
-      margin: 10px 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1.1rem;
-      opacity: 0;
-      transform: translateX(-20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .contact.visible p {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .contact i {
-      color: #222;
-      font-size: 1.2rem;
-      width: 25px;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .contact a {
-      color: #222;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .contact a:hover {
-      color: #555;
-    }
-
-    .contact p:hover i {
-      transform: scale(1.2);
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 20px 0;
-      background-color: #222;
-      color: white;
-      font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .header {
-        padding: 20px 0;
-      }
-      
-      .header .container {
-        padding: 0 15px;
-      }
-      
-      .logo {
-        font-size: 1.8rem;
-      }
-      
-      .nav a {
-        margin-left: 18px;
-        font-size: 1.1rem;
-      }
-      
-      .hero {
-        padding: 140px 15px 70px;
-        min-height: 85vh;
-      }
-      
-      .hero h2 {
-        font-size: 2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header {
-        padding: 18px 0;
-      }
-      
-      .logo {
-        font-size: 1.6rem;
-      }
-      
-      .nav a {
-        margin-left: 15px;
-        font-size: 1rem;
-      }
-      
-      .hero {
-        padding: 130px 10px 60px;
-        min-height: 80vh;
-      }
-      
-      .hero h2 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
+    @media (max-width:430px){
+      .hero h2{font-size:clamp(2.15rem,14vw,3.3rem)}
+      .hero p{font-size:.98rem}
     }
   </style>
 </head>
@@ -467,7 +160,9 @@
       <h1 class="logo">yToqst</h1>
       <nav class="nav">
         <a href="#about">About</a>
+        <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
+        <a href="#stack">Tech Stack</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -478,8 +173,7 @@
       <div class="hero-content">
         <h2>Hello, I'm <span>Dave Marcos</span></h2>
         
-        <p>Aspiring Cybersecurity Professional</p>
-        <p>I dont know what to put here lol.</p>
+        <p>I'm usually working on something, breaking something, or trying to figure out why something I wrote yesterday suddenly stopped working..</p>
       </div>
     </div>
   </section>
@@ -491,9 +185,27 @@
         Hello! I'm Dave Marcos, known online as <strong>Toqst</strong>.  
         I started learning HTML when I was 11 years old on my dad's old computer. At first, I wasn't really into HTML but PHP, because I wanted to develop Minecraft plugins at PocketMine.<br><br>
         After a year of being a total "copy coder" at PocketMine, I learned PHP properly and eventually started creating plugins on my own without copying code. <br><br>
-        I've now been programming for around 5–6 years and know PHP, Java, Python, and a bit of C. I'm currently learning Luau because I want to become a Roblox game developer — or perhaps something even bigger in the future.  <br><br>
-        Below are some of the projects I've worked on.
+        I've now been programming for around 4–5 years and know PHP, Java, Rust, and a bit of C.<br><br>
+  
       </p>
+  </section>
+
+  <section id="experience" class="about">
+    <div class="container">
+      <h2>Experience</h2>
+      <div class="entry">
+        <h3 class="entry-title">Former Lead Developer — InfinityLand / DropCraft</h3>
+        <p class="entry-role">I previously worked as a Lead Developer for InfinityLand, also known as DropCraft.</p>
+        <div class="chips">
+          <span class="chip">600+ community members</span>
+          <span class="chip">Minecraft server development</span>
+          <span class="chip">Plugin development</span>
+          <span class="chip">Server systems</span>
+          <span class="chip">Technical maintenance</span>
+          <span class="chip">Development leadership</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="projects" class="projects">
@@ -501,21 +213,25 @@
       <h2>Projects</h2>
       <div class="project-grid">
         <div class="project-card">
-          <h3>udp-toqster</h3>
-          <p>A potent UDP flooding tool designed for stress testing network resilience and evaluating security measures.<br><a href="https://github.com/IamToqst/udp-toqster." target="_blank">Check it out here</a></p>
+          <h3>Minecraft proxy servers and app development.</h3>
+          <p>I'm working on developing a proxy host that can mitigate dos and ddos attacks for absoulutely free. but with ads.</p>
+          <div class="chips">
+            <span class="chip">Android app development</span>
+            <span class="chip">Minecraft proxy server hosting</span>
+            <span class="chip">Minecraft proxy server hosting</span>
+          </div>
         </div>
-        <div class="project-card">
-          <h3>tcp-toqster</h3>
-          <p>A TCP flooding utility for robust network stress testing, simulating high traffic scenarios to fortify your system's defenses.<br><a href="https://github.com/IamToqst/tcp-toqster" target="_blank">Check it out here</a></p>
-        </div>
-        <div class="project-card">
-          <h3>Student management system</h3>
-          <p>A simple student management system, made for really for our school project.<br><a href="https://github.com/IamToqst" target="_blank">Check it out here</a></p>
-        </div>
-        <div class="project-card">
-          <h3>Something is missing here</h3>
-          <p>This project is still undeveloped.<br><a>Under development.</a></p>
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack" class="projects">
+    <div class="container">
+      <h2>Tech Stack</h2>
+      <div class="stack-list">
+        <div class="stack-group"><h3 class="stack-title">Languages</h3><div class="stack-items"><span class="stack-item">PHP</span><span class="stack-item">Java</span><span class="stack-item">Python</span><span class="stack-item">C</span><span class="stack-item">Luau</span></div></div>
+        <div class="stack-group"><h3 class="stack-title">Game Dev</h3><div class="stack-items"><span class="stack-item">PocketMine-MP</span><span class="stack-item">Minecraft Plugins</span><span class="stack-item">Roblox</span></div></div>
+        <div class="stack-group"><h3 class="stack-title">Tools</h3><div class="stack-items"><span class="stack-item">Git</span><span class="stack-item">GitHub</span><span class="stack-item">VS Code</span></div></div>
       </div>
     </div>
   </section>
@@ -583,7 +299,7 @@
         });
       }, observerOptions);
       
-      const elementsToAnimate = document.querySelectorAll('.about, .projects, .contact, .project-card');
+      const elementsToAnimate = document.querySelectorAll('.about, .projects, .contact, .project-card, #stack');
       elementsToAnimate.forEach(el => observer.observe(el)); 
       
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
