@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>yToqst</title>
   <link rel="icon" type="image/x-icon" href="https://img.itch.zone/aW1hZ2UvMTIxNjU4LzU2MDM4MS5wbmc=/315x250%23c/yrkGs9.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +14,7 @@
   <style>
     :root{--bg:#0a0a0a;--b:rgba(255,255,255,.11);--bs:rgba(255,255,255,.20);--t:#f4f4f4;--m:rgba(255,255,255,.64);--sub:rgba(255,255,255,.38);--hov:rgba(255,255,255,.035);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
     *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
 
     body{
       font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -22,13 +23,16 @@
       line-height:1.7;
       overflow-x:hidden;
       font-size:13px;
+      min-height:100vh;
     }
     body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(circle at 12% 8%,rgba(127,127,127,.10),transparent 28rem),radial-gradient(circle at 88% 72%,rgba(127,127,127,.07),transparent 32rem)}
     ::selection{background:var(--t);color:var(--bg)}
     a{cursor:pointer}
+    :focus-visible{outline:2px solid var(--t);outline-offset:3px}
 
     .container{width:90%;max-width:980px;margin:0 auto;padding:20px 0}
 
+    /* ---------- header / nav ---------- */
     .header{
       background:rgba(10,10,10,.82);
       backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
@@ -47,7 +51,7 @@
     }
     .header.hidden{transform:translateY(-120%)}
     .header.scrolled{max-width:760px;background:rgba(10,10,10,.92)}
-    .header .container{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;width:100%;max-width:980px}
+    .header .container{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:8px 10px;width:100%;max-width:980px}
 
     .logo{font-size:13px;font-weight:800;text-transform:lowercase;letter-spacing:-.04em;color:var(--t);text-shadow:none;transition:opacity .2s;padding:8px}
     .logo:hover{opacity:.8;transform:none}
@@ -57,25 +61,32 @@
     .nav a::after{display:none}
     .nav a:hover{color:var(--t);background:var(--hov)}
 
+    .menu-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;border:1px solid var(--b);background:transparent;color:var(--t);border-radius:8px;cursor:pointer;font-size:14px}
+
+    /* ---------- hero ---------- */
     .hero{
       position:relative;color:var(--t);text-align:left;
-      padding:54px 20px 28px;overflow:hidden;min-height:auto;
+      padding:54px 0 28px;overflow:hidden;min-height:auto;
       display:block;margin-top:0;
     }
     .hero::before{content:none}
-    .hero-content{opacity:0;transform:translateY(20px);animation:fadeInUp .8s ease forwards .2s;max-width:980px;width:90%;margin:0 auto}
-    .hero h2{font:800 clamp(2.2rem,7vw,5.15rem)/.98 "JetBrains Mono",monospace;letter-spacing:-.08em;text-transform:lowercase;margin-bottom:24px;text-shadow:none;max-width:880px}
+    .hero .container{padding:0}
+    .hero-content{opacity:0;transform:translateY(20px);animation:fadeInUp .8s ease forwards .2s;max-width:980px;width:100%;margin:0 auto}
+    .identity{color:var(--sub);font-size:11px;text-transform:lowercase;letter-spacing:.08em;margin-bottom:20px;overflow-wrap:anywhere}
+    .hero h2{font:800 clamp(2.2rem,7vw,5.15rem)/.98 "JetBrains Mono",monospace;letter-spacing:-.08em;text-transform:lowercase;margin-bottom:24px;text-shadow:none;max-width:880px;overflow-wrap:break-word}
     .hero span{color:var(--t);text-shadow:none}
     .hero p{font-size:clamp(1rem,2.2vw,1.23rem);line-height:1.75;color:var(--m);text-shadow:none;margin-bottom:0;max-width:790px;text-transform:none}
     .hero p+p{margin-top:8px}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
+    /* ---------- sections ---------- */
     .about,.projects,.contact{
       padding:0;margin:0 0 50px;opacity:0;transform:translateY(20px);
       transition:opacity .7s ease,transform .7s ease;
+      scroll-margin-top:100px;
     }
     .about .container,.projects .container,.contact .container{padding:0;max-width:980px}
-    .about::before,.projects::before,.contact::before{content:"";display:block;height:1px;background:var(--b);margin:0 0 38px}
+    .about::before,.projects::before,.contact::before{content:"";display:block;height:1px;background:var(--b);margin:0 auto 38px;width:90%;max-width:980px}
     .about.visible,.projects.visible,.contact.visible{opacity:1;transform:translateY(0)}
     .about{background-color:var(--bg)}
     .contact{background-color:var(--bg)}
@@ -89,10 +100,10 @@
     .about p{font-size:12px;line-height:1.9;color:var(--m);max-width:760px}
     .about p strong{color:var(--t)}
 
-    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:12px}
 
     .project-card{
-      background-color:transparent;padding:18px;border:1px solid var(--b);border-radius:10px;
+      background-color:transparent;padding:18px;border:1px solid var(--b);border-radius:10px;min-width:0;
       transition:border-color .25s,background .25s,transform .25s;
       opacity:0;transform:translateY(16px);
     }
@@ -105,12 +116,11 @@
     .project-card a:hover{color:var(--m)}
 
     .stack-list{border-top:1px solid var(--b)}
-    .stack-group{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--b)}
+    .stack-group{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--b)}
     .stack-title{margin:0;color:var(--sub);font-size:10px;letter-spacing:.10em;text-transform:lowercase;font-weight:500}
     .stack-items{display:flex;flex-wrap:wrap;gap:0}
-    .stack-item{color:var(--m);font-size:11px;text-transform:lowercase}
+    .stack-item{color:var(--m);font-size:11px;text-transform:lowercase;white-space:pre}
     .stack-item:not(:last-child)::after{content:' / ';color:var(--sub)}
-    @media (max-width:760px){.stack-group{grid-template-columns:1fr;gap:8px}}
 
     .entry{border-top:1px solid var(--b);padding:20px 0;transition:background .22s ease}
     .entry:hover{background:linear-gradient(90deg,transparent,var(--hov),transparent)}
@@ -122,11 +132,12 @@
     .chip:hover{color:var(--t);border-color:var(--bs);transform:translateY(-1px)}
 
     .contact p{
-      margin:9px 0;display:flex;align-items:center;gap:10px;font-size:12px;
+      margin:9px 0;display:flex;align-items:flex-start;gap:10px;font-size:12px;
       opacity:0;transform:translateX(-14px);transition:opacity .5s ease,transform .5s ease;color:var(--m);
+      overflow-wrap:anywhere;min-width:0;
     }
     .contact.visible p{opacity:1;transform:translateX(0)}
-    .contact i{color:var(--t);font-size:1rem;width:20px;text-align:center;transition:transform .3s}
+    .contact i{color:var(--t);font-size:1rem;width:20px;flex-shrink:0;text-align:center;transition:transform .3s}
     .contact a{color:var(--t);text-decoration:none;transition:color .2s}
     .contact a:hover{color:var(--m)}
     .contact p:hover i{transform:scale(1.15)}
@@ -138,18 +149,30 @@
     }
     .footer .container{padding:0;width:100%}
 
+    /* ---------- responsive ---------- */
     @media (max-width:760px){
       .header{width:calc(100% - 20px);margin:10px 10px 0;top:8px}
       .header.scrolled{max-width:calc(100% - 20px)}
-      .header .container{padding:8px 9px}
+      .header .container{padding:8px 9px;flex-wrap:wrap}
       .logo{font-size:.95rem}
-      .nav a{font-size:10.5px;padding:8px 9px}
+
+      .menu-toggle{display:inline-flex}
+      .nav{display:none;width:100%;flex-direction:column;align-items:stretch;padding-top:4px}
+      .nav.open{display:flex}
+      .nav a{font-size:11px;padding:11px 10px;text-align:left;width:100%}
+
       .hero{padding-top:34px}
+      .stack-group{grid-template-columns:1fr;gap:8px}
       .project-grid{grid-template-columns:1fr}
     }
     @media (max-width:430px){
       .hero h2{font-size:clamp(2.15rem,14vw,3.3rem)}
       .hero p{font-size:.98rem}
+    }
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+      .hero-content,.about,.projects,.contact,.project-card,.contact p{opacity:1;transform:none}
     }
   </style>
 </head>
@@ -158,7 +181,8 @@
   <header class="header">
     <div class="container">
       <h1 class="logo">yToqst</h1>
-      <nav class="nav">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="open navigation" aria-expanded="false" aria-controls="nav"><i class="fa-solid fa-bars"></i></button>
+      <nav class="nav" id="nav" aria-label="primary navigation">
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -171,6 +195,7 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
+        <div class="identity" id="identity">usagre, spain</div>
         <h2>Hello, I'm <span>Dave Marcos</span></h2>
         
         <p>I'm usually working on something, breaking something, or trying to figure out why something I wrote yesterday suddenly stopped working..</p>
@@ -188,6 +213,7 @@
         I've now been programming for around 4–5 years and know PHP, Java, Rust, and a bit of C.<br><br>
   
       </p>
+    </div>
   </section>
 
   <section id="experience" class="about">
@@ -239,11 +265,11 @@
   <section id="contact" class="contact">
     <div class="container">
       <h2>Contact Me</h2>
-      <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:ytoqst@gmail.com">ytoqst@gmail.com</a></p>
-      <p><i class="fa-brands fa-discord"></i> Discord: obscurelytoqst</p>
-      <p><i class="fa-brands fa-instagram"></i> Instagram: <a href="https://instagram.com/ytoqst" target="_blank">ytoqst</a></p>
-      <p><i class="fa-brands fa-youtube"></i> YouTube: <a href="https://youtube.com/@yToqst" target="_blank">youtube.com/@yToqst</a></p>
-      <p><i class="fa-brands fa-github"></i> GitHub: <a href="https://github.com/yToqst" target="_blank">github.com/IamToqst</a></p>
+      <p><i class="fa-solid fa-envelope"></i> <span>Email: <a href="mailto:ytoqst@gmail.com">ytoqst@gmail.com</a></span></p>
+      <p><i class="fa-brands fa-discord"></i> <span>Discord: obscurelytoqst</span></p>
+      <p><i class="fa-brands fa-instagram"></i> <span>Instagram: <a href="https://instagram.com/ytoqst" target="_blank">ytoqst</a></span></p>
+      <p><i class="fa-brands fa-youtube"></i> <span>YouTube: <a href="https://youtube.com/@yToqst" target="_blank">youtube.com/@yToqst</a></span></p>
+      <p><i class="fa-brands fa-github"></i> <span>GitHub: <a href="https://github.com/yToqst" target="_blank">github.com/IamToqst</a></span></p>
     </div>
   </section>
 
@@ -255,9 +281,41 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const identity = document.getElementById('identity');
+      function updateIdentity() {
+        try {
+          const now = new Date();
+          const time = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+          const offset = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Madrid', timeZoneName: 'shortOffset' }).formatToParts(now).find(p => p.type === 'timeZoneName').value.replace('GMT', 'utc');
+          identity.textContent = 'usagre, spain · ' + time + ' (' + offset + ')';
+        } catch (e) {
+          identity.textContent = 'usagre, spain';
+        }
+      }
+      updateIdentity();
+      setInterval(updateIdentity, 30000);
+
       const header = document.querySelector('.header');
+      const nav = document.getElementById('nav');
+      const menuToggle = document.getElementById('menuToggle');
       let lastScrollTop = 0;
-      
+
+      function setMenu(open) {
+        nav.classList.toggle('open', open);
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute('aria-label', open ? 'close navigation' : 'open navigation');
+        menuToggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+      }
+
+      menuToggle.addEventListener('click', function() {
+        setMenu(!nav.classList.contains('open'));
+      });
+
+      // reset the menu if the window grows back to desktop width
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 760) setMenu(false);
+      });
+
       window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
@@ -267,14 +325,15 @@
           header.classList.remove('scrolled');
         }
         
-        if (scrollTop > lastScrollTop && scrollTop > 200) {
+        // never hide the header while the mobile menu is open
+        if (scrollTop > lastScrollTop && scrollTop > 200 && !nav.classList.contains('open')) {
           header.classList.add('hidden');
         } else {
           header.classList.remove('hidden');
         }
         
         lastScrollTop = scrollTop;
-      });
+      }, { passive: true });
       
       const observerOptions = {
         threshold: 0.1,
@@ -303,6 +362,7 @@
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           e.preventDefault();
+          setMenu(false);
           
           const targetId = this.getAttribute('href');
           if (targetId === '#') return;
