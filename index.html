@@ -249,7 +249,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© 2025 yToqst. All rights reserved.</p>
+      <p>© 2026 yToqst. All rights reserved.</p>
     </div>
   </footer>
 
@@ -285,8 +285,6 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // If it's the project grid, animate each card with a delay
             if (entry.target.classList.contains('project-grid')) {
               const cards = entry.target.querySelectorAll('.project-card');
               cards.forEach((card, index) => {
